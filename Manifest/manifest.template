@@ -1,0 +1,28 @@
+{
+    "display_name": "Anm31Adapter",
+    "name": "Anm31",
+    "description": "Using for assesment",
+    "version": "1.0.1",
+    "vcops_minimum_version": @VCOPS_MINIMUM_VERSION@,
+    "disk_space_required": 500,
+    "run_scripts_on_all_nodes": true,
+    "eula_file": "eula.txt",
+    "platform": [
+        "Linux Non-VA",
+        "Linux VA"
+    ],
+    "vendor":"Calsoft",
+    "pak_icon": "pak_icon.png",
+    "license_type": @LICENSE_TYPE@,
+    "pak_validation_script": {
+        "script": "$VMWARE_PYTHON_BIN validate.py"
+    },
+    "adapter_pre_script": {
+        "script": "$VMWARE_PYTHON_BIN preAdapters.py"
+    },
+    "adapter_post_script": {
+        "script": "$VMWARE_PYTHON_BIN postAdapters.py"
+    },
+    "adapter_kinds": [ @ADAPTER_KINDS@
+    ]
+}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdapterKind key="Anml31Adapter" nameKey="1" version="1"
+	xmlns="http://schemas.vmware.com/vcops/schema"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://schemas.vmware.com/vcops/schema describeSchema.xsd"
+>
+
+
+	<CredentialKinds>
+		<CredentialKind key="creds" nameKey="5">
+			<CredentialField dispOrder="1" key="username" nameKey="6" password="false" type="string" />
+			<CredentialField dispOrder="2" key="password" nameKey="7" password="true" type="string" />
+			<CredentialField dispOrder="3" key="test" nameKey="8" password="false" type="string" />
+		</CredentialKind>
+	</CredentialKinds>
+
+
+	<ResourceKinds>
+	
+	  <ResourceKind key="Anml31world" nameKey="9" showTag="true" type="8" subType="6"/>
+	
+	  <ResourceKind key="Anml31Adapter Instance" nameKey="2" type="7" monitoringInterval="1" credentialKind="creds">
+			<ResourceIdentifier dispOrder="1" nameKey="3" required="true" type="string" key="host" />
+			<ResourceIdentifier dispOrder="2" nameKey="4" required="true" type="integer" key="sampleinput" />
+	  </ResourceKind>
+
+		<!-- vcenter resourcekind key -->
+
+	  <ResourceKind nameKey="30" key="AnmolvCenter" showTag="true">
+			<ResourceIdentifier dispOrder="1" nameKey="39" required="true" type="string" key="id" />
+			  <ResourceGroup nameKey="40" key="Capacity">
+				<ResourceAttribute nameKey="41" dataType="string" key="vCenterName" isProperty="true" />
+				<ResourceAttribute nameKey="42" dataType="integer" key="cpu_usage" isProperty="false" />
+				<ResourceAttribute nameKey="43" dataType="integer" key="network_usage" isProperty="false" />
+			 </ResourceGroup>
+	  </ResourceKind>
+
+
+		<!-- ESXI resourcekind key -->
+
+	 <ResourceKind nameKey="150" key="AnmolEsxiHost">
+		    <ResourceIdentifier dispOrder="1" nameKey="151" required="true" type="string" key="id1" />
+			 <ResourceGroup nameKey="152" key="Performance">
+				<ResourceAttribute nameKey="153" key="cpu_ready" dataType="integer" unit="ms" isProperty="false" />
+				<ResourceAttribute nameKey="154" key="cpu_contentation" dataType="integer" unit="%" isProperty="false" />
+			 </ResourceGroup>
+	 </ResourceKind>
+	 
+	 <!-- DataStore resourcekind key -->
+		
+     <ResourceKind nameKey="199" key="AnmolDataStore">
+	      <ResourceIdentifier dispOrder="1" nameKey="302" required="true" type="string" key="id2"/>
+		   	<ResourceGroup nameKey="185" key="datastore_details" >
+				<ResourceAttribute nameKey="184" key="DataStoreLatency" dataType="integer" unit="ms" isProperty="false"/>
+				<ResourceAttribute nameKey="183" key="DataStoreIOPS" dataType="string" isProperty="false"/>
+				<ResourceAttribute nameKey="182" key="DataStoreUsages" dataType="integer" isProperty="false"/>
+	     	</ResourceGroup>
+	 </ResourceKind>
+	 
+	 <!-- VM resourcekind key -->
+
+      <ResourceKind nameKey="249" key="AnmolVm">
+		  <ResourceIdentifier dispOrder="1" nameKey="250" required="true" type="string" key="id3"/>
+			<ResourceGroup nameKey="251" key="VmAnmolDetails" >
+				<ResourceAttribute nameKey="252" key="TotalCapacity" dataType="integer" unit="gb" isProperty="false"/>
+				<ResourceAttribute nameKey="253" key="FreeCapacity" dataType="integer" unit="gb" isProperty="false"/>
+				<ResourceAttribute nameKey="254" key="PowerState" dataType="string" isProperty="false"/>
+			</ResourceGroup>
+       </ResourceKind>
+ </ResourceKinds>
+
+
+   <TraversalSpecKinds>
+       <TraversalSpecKind name="Anml31Traversal" nameKey="20" rootAdapterKind="Anml31Adapter" rootResourceKind="Anml31world" usedFor="ALL" description="Enables Hierarchy">
+	   <ResourcePath path="Anml31Adapter::Anml31world::child||Anml31Adapter::Anml31Adapter Instance::child||Anml31Adapter::AnmolvCenter::child||Anml31Adapter::AnmolEsxiHost::child||Anml31Adapter::AnmolVm::child||Anml31Adapter::AnmolDataStore::child"/>
+       </TraversalSpecKind>
+   </TraversalSpecKinds>
+  
+   <AlertDefinitions>
+	        <AlertDefinition nameKey="500" adapterKind="Anml31Adapter" id="AlertDefinition-e9b1cf5f-8ac2-44f2-a480-0d7dc2c2b1ad" name="Anml31AlertVM" resourceKind="AnmolVm" subType="20" type="15">
+	            <State severity="automatic">
+	                <SymptomSets operator="and">
+	                    <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-a26d66be-e9c9-4e14-89ac-b3a944787b62"/>
+	                    <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-8ac831f8-5d4c-4982-8b4a-dfb4aaec56f7"/>
+	                </SymptomSets>
+	                <Impact key="health" type="badge"/>
+	            </State>
+	        </AlertDefinition>
+	
+	       <AlertDefinition nameKey="503" adapterKind="Anml31Adapter" id="AlertDefinition-7c171c4d-c71d-4a1f-b520-1e2e97591d5b" name="Anm31VcenterAlert" resourceKind="AnmolvCenter" subType="19" type="15">
+	            <State severity="automatic">
+	                <SymptomSets operator="and">
+	                    <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-aa734719-b660-4ff7-96f3-7fc4a04aff5d"/>
+	                    <SymptomSet applyOn="self" operator="and" ref="SymptomDefinition-ab104fda-0dcf-4314-a1a9-fa7ade12d407"/>
+	                </SymptomSets>
+	                <Impact key="health" type="badge"/>
+	            </State>
+	        </AlertDefinition>
+    </AlertDefinitions>
+    <SymptomDefinitions>
+	        <SymptomDefinition nameKey="501" adapterKind="Anml31Adapter" cancelCycle="3" id="SymptomDefinition-8ac831f8-5d4c-4982-8b4a-dfb4aaec56f7"  resourceKind="AnmolVm" waitCycle="3">
+	            <State severity="warning">
+	                <Condition key="VmAnmolDetails|FreeCapacity" operator="&gt;" thresholdType="static" type="metric" value="500.0" valueType="numeric"/>
+	            </State>
+	        </SymptomDefinition>
+	        <SymptomDefinition nameKey="502" adapterKind="Anml31Adapter" cancelCycle="3" id="SymptomDefinition-a26d66be-e9c9-4e14-89ac-b3a944787b62" resourceKind="AnmolVm" waitCycle="3">
+	            <State severity="info">
+	                <Condition key="VmAnmolDetails|PowerState" operator="=" thresholdType="static" type="metric" value="ON" valueType="string"/>
+	            </State>
+	        </SymptomDefinition>
+	        
+	        
+	        <SymptomDefinition nameKey="503" adapterKind="Anml31Adapter" cancelCycle="3" id="SymptomDefinition-ab104fda-0dcf-4314-a1a9-fa7ade12d407"  resourceKind="AnmolvCenter" waitCycle="3">
+	            <State severity="immediate">
+	                <Condition key="Capacity|network_usage" operator="&gt;" thresholdType="static" type="metric" value="70.0" valueType="numeric"/>
+	            </State>
+	        </SymptomDefinition>
+	        <SymptomDefinition nameKey="504" adapterKind="Anml31Adapter" cancelCycle="3" id="SymptomDefinition-aa734719-b660-4ff7-96f3-7fc4a04aff5d" resourceKind="AnmolvCenter" waitCycle="3">
+	            <State severity="critical">
+	                <Condition key="Capacity|cpu_Usage" operator="&gt;" thresholdType="static" type="metric" value="90.0" valueType="numeric"/>
+	            </State>
+	        </SymptomDefinition> 
+    </SymptomDefinitions>
+    
+</AdapterKind>
